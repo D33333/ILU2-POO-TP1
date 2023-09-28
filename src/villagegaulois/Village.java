@@ -75,16 +75,18 @@ public class Village {
 			return null;
 		}
 		
-		private void afficherMarche() {
+		private String afficherMarche() {
+			StringBuilder chaine = new StringBuilder();
 			int nbEtalVide = 0;
 			for (Etal etal : etals) {
 				if (etal.isEtalOccupe())
-					etal.afficherEtal();
+					chaine.append(etal.afficherEtal());
 				else
 					nbEtalVide++;
 			}
 			if (nbEtalVide != 0)
-				System.out.println("Il reste " + nbEtalVide + " étals non utilisés dans le marché.\n");
+				chaine.append("Il reste " + nbEtalVide + " étals non utilisés dans le marché.\n");
+			return chaine.toString();
 		}
 	}
 	
@@ -109,11 +111,24 @@ public class Village {
 		}
 		return chaine.toString();
 	}
-	/*
-	public Etal rechercherEtal(Gaulois vendeur)
-	public String partirVendeur(Gaulois vendeur)
-	public String afficherMarche()
-	*/
+	
+	public Etal rechercherEtal(Gaulois vendeur) {
+		return marche.trouverVendeur(vendeur);
+	}
+	
+	
+	public String partirVendeur(Gaulois vendeur) {
+		Etal etal = rechercherEtal(vendeur);
+		return etal.libererEtal();
+	}
+	
+	
+	public String afficherMarche() {
+		StringBuilder chaine = new StringBuilder();
+		chaine.append("Le marché du village \"" + nom + "\" possède plusieurs étals : \n");
+		chaine.append(marche.afficherMarche());
+		return chaine.toString();
+	}
 	
 	/*Méthodes de base*/
 	public String getNom() {
