@@ -2,6 +2,7 @@ package villagegaulois;
 
 import personnages.Chef;
 import personnages.Gaulois;
+import villagegaulois.VillageSansChefException;
 
 public class Village {
 	private String nom;
@@ -159,17 +160,21 @@ public class Village {
 		return null;
 	}
 
-	public String afficherVillageois() {
+	public String afficherVillageois () throws VillageSansChefException {
 		StringBuilder chaine = new StringBuilder();
-		if (nbVillageois < 1) {
-			chaine.append("Il n'y a encore aucun habitant au village du chef "
-					+ chef.getNom() + ".\n");
-		} else {
-			chaine.append("Au village du chef " + chef.getNom()
-					+ " vivent les légendaires gaulois :\n");
-			for (int i = 0; i < nbVillageois; i++) {
-				chaine.append("- " + villageois[i].getNom() + "\n");
+		try {
+			if (nbVillageois < 1) {
+				chaine.append("Il n'y a encore aucun habitant au village du chef "
+						+ chef.getNom() + ".\n");
+			} else {
+				chaine.append("Au village du chef " + chef.getNom()
+				+ " vivent les légendaires gaulois :\n");
+				for (int i = 0; i < nbVillageois; i++) {
+					chaine.append("- " + villageois[i].getNom() + "\n");
+				}
 			}
+		} catch (NullPointerException npe) {
+			throw new VillageSansChefException("Il n'existe pas de village sans chef.");
 		}
 		return chaine.toString();
 	}
